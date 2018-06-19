@@ -1,0 +1,421 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:AutoCompleteControl.AutoComplete.Resources.Styles">
+
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="#FFF"/>
+    <SolidColorBrush x:Key="GreyBrush" Color="#A8A8A8"/>
+    <SolidColorBrush x:Key="ErrorBorderBrush" Color="Red"/>
+    <SolidColorBrush x:Key="ErrorTooltipBackgroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="ErrorTooltipForegroundBrush" Color="Red"/>
+    <SolidColorBrush x:Key="ErrorPolygonFillBrush" Color="Red"/>
+    <SolidColorBrush x:Key="TextBoxBorderBrush" Color="#DDDEDF"/>
+    <SolidColorBrush x:Key="ComboBoxBackgroundBrush" Color="White"/>
+
+    <system:Double x:Key="BaseTextBoxHeight">25</system:Double>
+    <Thickness x:Key="BaseErrorBorderThickness">0.5</Thickness>
+    <Thickness x:Key="BaseErrorTooltipBorderThickness">0.5</Thickness>
+    <system:Double x:Key="BaseTextBoxWidth">180</system:Double>
+    <system:Double x:Key="BaseReadOnlyLabelHieght">30</system:Double>
+    <system:Double x:Key="BaseFontSize">12</system:Double>
+    <system:Double x:Key="BaseLinkButtonFontSize">14</system:Double>
+    <Thickness x:Key="BaseBorderThickness">1</Thickness>
+    <FontFamily x:Key="BaseFontFamily">Segoe UI</FontFamily>
+
+    <Style TargetType="{x:Type TextBox}"
+           x:Key="BaseTextBoxStyle">
+        <Setter Property="FontWeight"
+                Value="Normal" />
+        <Setter Property="FontSize"
+                Value="{StaticResource BaseFontSize}" />
+        <Setter Property="Background"
+                Value="{StaticResource TextBoxBackgroundBrush}" />
+        <Setter Property="FontFamily"
+                Value="{StaticResource BaseFontFamily}" />
+        <Setter Property="Height"
+                Value="{StaticResource BaseTextBoxHeight}" />
+        <Setter Property="Width"
+                Value="{StaticResource BaseTextBoxWidth}" />
+        <Setter Property="BorderThickness"
+                Value="{StaticResource BaseBorderThickness}" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource GreyBrush}" />
+        <Setter Property="Padding"
+                Value="1.5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Validation.HasError" Value="true">
+                            <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                            <Setter Property="Tag" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property = "BorderBrush" TargetName="border"  Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property = "BorderBrush" TargetName="border"  Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <AdornedElementPlaceholder x:Name="adorner">
+                            <Border BorderBrush="{StaticResource ErrorBorderBrush}"
+                                    BorderThickness="{StaticResource BaseErrorBorderThickness}" />
+                        </AdornedElementPlaceholder>
+                        <Polygon Fill="{StaticResource ErrorPolygonFillBrush}"
+                                 Margin="0,2,2,0"
+                                 Points="10,10 10,0 0,0"
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Right" >
+                        </Polygon>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="CornerRadius"
+                        Value="3" />
+            </Style>
+            <Style x:Key="{x:Type ToolTip}" TargetType="{x:Type ToolTip}">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Foreground" Value="{StaticResource ErrorPolygonFillBrush}"/>
+                <Setter Property="BorderBrush" Value="Gray"/>
+                <Setter Property="BorderThickness" Value="{StaticResource BaseErrorBorderThickness}"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <Border
+                          x:Name="Border"
+                          Grid.ColumnSpan="2"
+                          CornerRadius="3"
+                          Background="{StaticResource ComboBoxBackgroundBrush}"
+                          BorderBrush="{StaticResource GreyBrush}"
+                          BorderThickness="{StaticResource BaseBorderThickness}" />
+
+                        <Path
+                            x:Name="Arrow"
+                            Grid.Column="1"
+                            Fill="{StaticResource TextBoxBorderBrush}"
+                            Stroke="{StaticResource TextBoxBorderBrush}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Data="M 1,1.5 L 4.5,5 L 8,1.5" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
+        <Border x:Name="PART_ContentHost" Focusable="True" />
+    </ControlTemplate>
+    
+    <Style x:Key="BaseComboBoxStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="Background" Value="{StaticResource TextBoxBackgroundBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Width" Value="{StaticResource BaseTextBoxWidth}" />
+        <Setter Property="Height" Value="{StaticResource BaseTextBoxHeight}" />
+        <Setter Property="Padding" Value="0,-3,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton
+                            Cursor="Hand"
+                            Name="ToggleButton"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{StaticResource ComboBoxToggleButton}"
+                            Grid.Column="2"
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press" />
+
+                        <ContentPresenter
+                            Name="ContentSite"
+                            IsHitTestVisible="False"
+                            Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="10,3,30,3" Width="200"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                        <TextBox x:Name="PART_EditableTextBox"
+                            Style="{x:Null}"
+                            Template="{StaticResource ComboBoxTextBox}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="3,3,23,3"
+                            Focusable="True"
+                            Visibility="Hidden"
+                            IsReadOnly="{TemplateBinding IsReadOnly}" />
+                        <Popup
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True"
+                            Focusable="False"
+                            PopupAnimation="Slide">
+                            <Grid
+                              Name="DropDown"
+                              SnapsToDevicePixels="True"
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border
+                                    CornerRadius="1"
+                                    x:Name="DropDownBorder"
+                                    Background="White"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource GreyBrush}" />
+                                <ScrollViewer Margin="1,6,4,6" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <AdornedElementPlaceholder x:Name="adorner">
+                            <Border BorderBrush="{StaticResource ErrorBorderBrush}"
+                                    BorderThickness="{StaticResource BaseErrorBorderThickness}" />
+                        </AdornedElementPlaceholder>
+                        <Polygon Fill="{StaticResource ErrorPolygonFillBrush}"
+                                 Margin="0,2,2,0"
+                                 Points="10,10 10,0 0,0"
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Right" >
+                        </Polygon>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Resources>
+            <Style x:Key="{x:Type ToolTip}" TargetType="{x:Type ToolTip}">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Foreground" Value="{StaticResource ErrorPolygonFillBrush}"/>
+                <Setter Property="BorderBrush" Value="Gray"/>
+                <Setter Property="BorderThickness" Value="{StaticResource BaseErrorBorderThickness}"/>
+            </Style>
+        </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                <Setter Property="Tag" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+        </Style.Triggers>
+
+    </Style>
+
+    <Style x:Key="CloseButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Margin"
+                Value="5,-5,-2,0"></Setter>
+        <!--<Setter Property="Padding" Value="0,20,0,0"></Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="Transparent"
+                            BorderThickness="0">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextBlock.Foreground="Red" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="Transparent"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="AutoBorderStyle"
+           TargetType="{x:Type Border}">
+        <Style.Setters>
+            <Setter Property="BorderBrush"
+                    Value="{StaticResource GreyBrush}"></Setter>
+            <Setter Property="BorderThickness"
+                    Value="0"></Setter>
+            <Setter Property="HorizontalAlignment"
+                    Value="Left"></Setter>
+            <Setter Property="VerticalAlignment"
+                    Value="Center"></Setter>
+        </Style.Setters>
+    </Style>
+    
+    <Style x:Key="AutoWatermarkStyle"
+           TargetType="{x:Type TextBlock}"
+           BasedOn="{StaticResource txtWaterMark}">
+        <Style.Setters>
+            <Setter Property="IsHitTestVisible"
+                    Value="False"></Setter>
+            <Setter Property="HorizontalAlignment"
+                    Value="Left"></Setter>
+            <Setter Property="VerticalAlignment"
+                    Value="Center"></Setter>
+            <!--<Setter Property="Margin" Value="10,0,0,0"></Setter>-->
+            <Setter Property="Visibility"
+                    Value="Collapsed" />
+            <Setter Property="Padding"
+                    Value="9" />
+        </Style.Setters>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Text, ElementName=TextBoxAutoComplete}"
+                         Value="">
+                <Setter Property="Visibility"
+                        Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="AutoTextBoxStyle"
+           TargetType="{x:Type TextBox}"
+           BasedOn="{StaticResource BaseTextBoxStyle}">
+        <Style.Resources>
+            <Style x:Key="{x:Type ToolTip}" TargetType="{x:Type ToolTip}">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Foreground" Value="{StaticResource ErrorPolygonFillBrush}"/>
+                <Setter Property="BorderBrush" Value="Gray"/>
+                <Setter Property="BorderThickness" Value="{StaticResource BaseErrorBorderThickness}"/>
+            </Style>
+        </Style.Resources>
+        <Style.Setters>
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment"
+                    Value="Stretch"></Setter>
+            <Setter Property="BorderThickness"
+                    Value="0"></Setter>
+            <Setter Property="BorderThickness"
+                    Value="0" />
+            <Setter Property="Padding"
+                    Value="3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Validation.HasError" Value="true">
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                <Setter Property="Tag" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Margin="2">
+                            <AdornedElementPlaceholder x:Name="adorner">
+                                <Border BorderBrush="{StaticResource ErrorBorderBrush}"
+                                    BorderThickness="{StaticResource BaseErrorBorderThickness}" />
+                            </AdornedElementPlaceholder>
+                            <Polygon Fill="{StaticResource ErrorPolygonFillBrush}"
+                                 Margin="0,2,2,0"
+                                 Points="10,10 10,0 0,0"
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Right" >
+                            </Polygon>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+    
+    <Style x:Key="AutoImageStyle"
+           TargetType="{x:Type Image}">
+        <Style.Setters>
+            <Setter Property="HorizontalAlignment"
+                    Value="Left"></Setter>
+            <Setter Property="Height"
+                    Value="15"></Setter>
+            <Setter Property="Margin"
+                    Value="0"></Setter>
+        </Style.Setters>
+    </Style>
+    
+    <Style x:Key="AutoComboStyle"
+           TargetType="{x:Type ComboBox}" BasedOn="{StaticResource BaseComboBoxStyle}">
+        <Style.Setters>
+            <Setter Property="IsDropDownOpen"
+                    Value="False"></Setter>
+            <Setter Property="IsTabStop"
+                    Value="False"></Setter>
+            <Setter Property="IsSynchronizedWithCurrentItem"
+                    Value="True"></Setter>
+            <Setter Property="HorizontalAlignment"
+                    Value="Left"></Setter>
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <Polygon Fill="{StaticResource ErrorPolygonFillBrush}"
+                         Margin="0,2,2,0"
+                         Points="10,10 10,0 0,0"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Right"
+                         Tag="{Binding ElementName=adorner, Path=AdornedElement.(Validation.Errors).CurrentItem.ErrorContent}">
+                                <Polygon.ToolTip>
+                                    <ToolTip Content="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}"
+                                 BorderThickness="{StaticResource BaseErrorTooltipBorderThickness}"
+                                 Foreground="{StaticResource ErrorTooltipForegroundBrush}"
+                                 Background="{StaticResource ErrorTooltipBackgroundBrush}"
+                                 FontFamily="{StaticResource BaseFontFamily}" />
+                                </Polygon.ToolTip>
+                            </Polygon>
+                            <AdornedElementPlaceholder x:Name="adorner">
+                                <Border BorderBrush="{StaticResource ErrorBorderBrush}" BorderThickness="{StaticResource BaseErrorBorderThickness}" />
+                            </AdornedElementPlaceholder>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style.Setters>
+    </Style>
+
+</ResourceDictionary>

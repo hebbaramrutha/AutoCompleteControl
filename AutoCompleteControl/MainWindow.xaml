@@ -1,0 +1,49 @@
+﻿<Window x:Class="AutoCompleteControl.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoCompleteControl"
+        xmlns:autocomplete="clr-namespace:AutoCompleteControl.AutoComplete"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Content="AutoComplete with single select"/>
+        <autocomplete:AutoCompleteUC KeyboardNavigation.TabNavigation="Local"
+                                                  AutoBoxHeight="22"
+                                                  AutoBoxWidth="140"
+                                                  CompleteBoxHeight="24" 
+                                                  x:Name="CityAutoComplete"
+                                                  DelayTime="500" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                  Threshold="1" 
+                                                  IsMultiSelect="False" Margin="5,1,0,0"
+                                                  Selections="{Binding AutoCompleteSelectedCity, Mode=TwoWay}">
+        </autocomplete:AutoCompleteUC>
+
+        <!--Button added to test autocomplete selected value-->
+        <Button Content="Submit" Height="30" Width="50" Click="Button_Click" Margin="10,90,10,0"/>
+
+
+        <Label Content="AutoComplete with multiselect" Grid.Row="1"/>
+        <autocomplete:AutoCompleteUC KeyboardNavigation.TabNavigation="Local" Grid.Row="1"
+                                                  AutoBoxHeight="22"
+                                                  AutoBoxWidth="140"
+                                                  CompleteBoxHeight="24" 
+                                                  x:Name="CountryAutoComplete"
+                                                  DelayTime="500" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                  Threshold="1" 
+                                                  IsMultiSelect="True" Margin="5,1,0,0"
+                                                  Selections="{Binding AutoCompleteSelectedCountry, Mode=TwoWay}">
+        </autocomplete:AutoCompleteUC>
+
+        <!--Button added to test autocomplete selected value-->
+        <Button Content="Submit" Height="30" Width="50" Click="Button_Click_1" Margin="10,90,10,0" Grid.Row="1"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,7 @@
+﻿1) On focus of the control, it should display all the list values
+2) On user input, the list should be filtered
+3) On selecting a value, it should be displayed on the control. For multiselect, the values should be displayed below the control
+4) Once the user selects a value for multiselect control, it should not be displayed in the dropdown list
+5) User should be able to delete the selected values in case of multiselect. Once deleted, the value should show up in drop down list
+6) User should be able to unselect the selected value
+7) There should be a scroll if the number of items are too many  

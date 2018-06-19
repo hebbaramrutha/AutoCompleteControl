@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="AutoCompleteControl.AutoComplete.AutoCompleteUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AutoCompleteControl.AutoComplete"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\AutoComplete\Resources\Styles\StyleAutoComplete.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="AutoLabelStyle" TargetType="{x:Type Label}">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="2"></Setter>
+                    <Setter Property="Padding" Value="10"></Setter>
+                    <Setter Property="Canvas.ZIndex" Value="1"></Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Label}">
+                                <Border BorderBrush="CadetBlue" BorderThickness="1" CornerRadius="2" x:Name="Border" Background="Gainsboro">
+                                    <DockPanel>
+                                        <ContentPresenter RecognizesAccessKey="True" VerticalAlignment="Center" HorizontalAlignment="Left"></ContentPresenter>
+                                        <Button x:Name="BtnCancel" Cursor="Hand" Content="x" Width="15" VerticalAlignment="Top" HorizontalAlignment="Right" Click="ButtonBase_OnClick" Style="{StaticResource CloseButtonStyle}" DockPanel.Dock="Top">
+                                        </Button>
+                                    </DockPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="Gainsboro"></Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style.Setters>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border x:Name="BrdAuto" Grid.Row="0" Grid.Column="0" Canvas.ZIndex="3" Grid.ColumnSpan="3" Visibility="Visible" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Canvas.ZIndex="3" x:Name="StackAutoComplete">
+                <Grid Canvas.ZIndex="3" >
+                    <TextBox x:Name="TextBoxAutoComplete"
+                             ToolTipService.ShowOnDisabled="True"
+                             Text="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Text}" Canvas.ZIndex="3" TextChanged="TextBoxAutoComplete_OnTextChanged" PreviewKeyDown="TextBoxAutoComplete_PreviewKeyDown" Style="{StaticResource AutoTextBoxStyle}"
+                             GotFocus="TextBoxAutoComplete_GotFocus" LostFocus="TextBoxAutoComplete_LostFocus" GotMouseCapture="TextBoxAutoComplete_GotMouseCapture">
+                    </TextBox>
+                </Grid>
+                <Image x:Name="ImgLoader" Canvas.ZIndex="1" Style="{StaticResource AutoImageStyle}" Visibility="Collapsed" />
+            </StackPanel>
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+                    <Setter Property="BorderThickness" Value="1"></Setter>
+                    <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                    <Setter Property="Height" Value="35"></Setter>
+                    <Setter Property="CornerRadius" Value="3"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsFocused, ElementName=TextBoxAutoComplete}" Value="true">
+                            <Setter  Property="Border.BorderBrush" Value="LightBlue"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsFocused, ElementName=TextBoxAutoComplete}" Value="false">
+                            <Setter Property="Border.BorderBrush" Value="{StaticResource GreyBrush}"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+        <ComboBox ToolTipService.ShowOnDisabled="True" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                  x:Name="ComboAutoComplete" Canvas.ZIndex="1" SelectionChanged="ComboAutoComplete_SelectionChanged" 
+                  Style="{StaticResource AutoComboStyle}" KeyDown="ComboAutoComplete_KeyDown" PreviewKeyDown="ComboAutoComplete_PreviewKeyDown" 
+                  DisplayMemberPath="DisplayName">
+           
+        </ComboBox>
+        <Label x:Name="LblNoResults"  Grid.Row="1" Grid.Column="0" FontSize="10" Content="No Results found." Visibility="Collapsed" Foreground="Red"></Label>
+        <WrapPanel Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="0" x:Name="ResultPanel" Visibility="Collapsed" Margin="0,2,0,0" HorizontalAlignment="Left" >
+        </WrapPanel>
+    </Grid>
+    
+</UserControl>
